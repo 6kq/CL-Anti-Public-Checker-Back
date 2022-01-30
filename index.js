@@ -68,8 +68,8 @@ app.get("/info", (req, res) => {
 });
 
 app.post("/testdb", (req, res) => {
-    var givenHash = req.body.hash;
-    if (String(Object.keys(givenHash).length) != 128) return res.status(400).send("error invalid hash provided")
+    var givenHash = req.body.hash.toLowerCase();
+    if (String(Object.keys(givenHash).length) != 64) return res.status(400).send("error invalid hash provided")
     con.query('SELECT * FROM acchash WHERE hash', function (error, results, fields) {
         if (results.length > 0) {
             for (var i = 0; i < results.length; i++) {
@@ -84,14 +84,16 @@ app.post("/testdb", (req, res) => {
     });
 });
 
+
+
 /* Blank request just output the value not in json format 
 //
 //
 //
 */
 app.post("/testdb/blank", (req, res) => {
-    var givenHash = req.body.hash;
-    if (String(Object.keys(givenHash).length) != 128) return res.status(400).send("error invalid hash provided")
+    var givenHash = req.body.hash.toLowerCase();
+    if (String(Object.keys(givenHash).length) != 64) return res.status(400).send("error invalid hash provided")
     con.query('SELECT * FROM acchash WHERE hash', function (error, results, fields) {
         if (results.length > 0) {
             for (var i = 0; i < results.length; i++) {
@@ -115,10 +117,10 @@ app.get("/info/blank", (req, res) => {
             throw error;
         }
         //returns success + number of rows in table
-        //to string
         res.status(200).send(results.length.toString());
     });
 });
+
 
 /* databse functions
 //
