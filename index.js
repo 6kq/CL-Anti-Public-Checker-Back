@@ -115,7 +115,8 @@ app.get("/info/blank", (req, res) => {
             throw error;
         }
         //returns success + number of rows in table
-        res.status(200).send(results.length);
+        //to string
+        res.status(200).send(results.length.toString());
     });
 });
 
